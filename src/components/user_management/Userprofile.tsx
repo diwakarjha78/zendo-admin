@@ -69,8 +69,8 @@ const Userprofile: React.FC = () => {
 
   return (
     <div className="p-4">
-      <div className="p-6 bg-white rounded shadow-md space-y-4">
-        <div className="flex items-center justify-between">
+      <div className="p-6 bg-white rounded shadow-md space-y-5">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <h1 className="text-xl font-semibold">User Profile</h1>
           <div className="min-w-20 w-full max-w-80">
             <Input
@@ -122,17 +122,17 @@ const Userprofile: React.FC = () => {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-end pt-2">
-          <Button variant="outline" size="sm" onClick={handlePrev} disabled={page === 1} className="mr-2">
-            <ChevronsLeft className="mr-1 h-4 w-4" />
-            Previous
+        <div className="flex items-center justify-end pt-2 gap-2">
+          <Button variant="outline" size="sm" onClick={handlePrev} disabled={page === 1} className="cursor-pointer flex items-center justify-center">
+            <ChevronsLeft className="h-4 w-4" />
+            
           </Button>
           <span className="mx-2 text-sm text-gray-700">
             Page {page} of {totalPages || 1}
           </span>
-          <Button variant="outline" size="sm" onClick={handleNext} disabled={page === totalPages || totalPages === 0}>
-            Next
-            <ChevronsRight className="ml-1 h-4 w-4" />
+          <Button variant="outline" size="sm" onClick={handleNext} disabled={page === totalPages || totalPages === 0} className="cursor-pointer flex items-center justify-center">
+            
+            <ChevronsRight className="h-4 w-4" />
           </Button>
         </div>
       </div>

@@ -234,20 +234,36 @@ function Sidebar({
 function SidebarTrigger({ className, onClick, ...props }: React.ComponentProps<typeof Button>) {
   const { toggleSidebar, open } = useSidebar();
   return (
-    <Button
-      data-sidebar="trigger"
-      data-slot="sidebar-trigger"
-      size="icon"
-      className={cn('', className)}
-      onClick={(event) => {
-        onClick?.(event);
-        toggleSidebar();
-      }}
-      {...props}
-    >
-      {open ? <ArrowLeft className='!w-6 !h-6' /> : <Menu className='!w-6 !h-6' />}
-      <span className="sr-only">Toggle Sidebar</span>
-    </Button>
+    <>
+      <Button
+        data-sidebar="trigger"
+        data-slot="sidebar-trigger"
+        size="icon"
+        className={`${cn('', className)} hidden md:block`}
+        onClick={(event) => {
+          onClick?.(event);
+          toggleSidebar();
+        }}
+        {...props}
+      >
+        {open ? <ArrowLeft className="!w-6 !h-6" /> : <Menu className="!w-6 !h-6" />}
+        <span className="sr-only">Toggle Sidebar</span>
+      </Button>
+      <Button
+        data-sidebar="trigger"
+        data-slot="sidebar-trigger"
+        size="icon"
+        className={`${cn('', className)} md:hidden`}
+        onClick={(event) => {
+          onClick?.(event);
+          toggleSidebar();
+        }}
+        {...props}
+      >
+        {open ? <Menu className="!w-6 !h-6" /> : <ArrowLeft className="!w-6 !h-6" />}
+        <span className="sr-only">Toggle Sidebar</span>
+      </Button>
+    </>
   );
 }
 
