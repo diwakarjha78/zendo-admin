@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Data from '@/lib/data';
 import { Link } from 'react-router-dom';
 import { ChevronRight, LockOpen, LogOut, Settings } from 'lucide-react';
@@ -14,8 +14,10 @@ import {
 } from '@/components/ui/sidebar';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import Logout from './auth/Logout';
 
 const AppSidebar: React.FC = () => {
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
   return (
     <Sidebar>
       <SidebarContent className="relative flex flex-col h-screen bg-white">
@@ -76,11 +78,15 @@ const AppSidebar: React.FC = () => {
           <div className="bg-transparent text-black hover:bg-gray-200 rounded cursor-pointer p-2 transition-colors">
             <LockOpen size={24} />
           </div>
-          <div className="bg-transparent text-black hover:bg-gray-200 rounded cursor-pointer p-2 transition-colors">
+          <div
+            onClick={() => setIsLogoutModalOpen(true)}
+            className="bg-transparent text-black hover:bg-gray-200 rounded cursor-pointer p-2 transition-colors"
+          >
             <LogOut size={24} />
           </div>
         </div>
       </SidebarContent>
+      <Logout open={isLogoutModalOpen} onOpenChange={setIsLogoutModalOpen} />
     </Sidebar>
   );
 };

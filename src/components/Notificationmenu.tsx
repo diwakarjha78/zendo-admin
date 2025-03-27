@@ -17,7 +17,7 @@ const Notificationmenu: React.FC = () => {
         {/* Notification Panel Header */}
         <div className="px-4 py-3 border-b bg-white flex items-center justify-between rounded-t-xs">
           <h2 className="font-semibold">NOTIFICATIONS</h2>
-          <span className="text-xs text-white bg-red-500 px-2 py-1 rounded-full">New 5</span>
+          <span className="text-xs text-white bg-red-500 px-2 py-1 rounded-full">New 3</span>
         </div>
         {/* Notification List */}
         <div className="bg-white">
@@ -40,9 +40,7 @@ const Notificationmenu: React.FC = () => {
         </div>
         {/* Notification Panel Footer */}
         <div className="px-4 py-3 border-t bg-white flex items-center justify-between rounded-b-xs">
-          <button className="cursor-pointer text-sm font-medium text-blue-600 hover:underline">
-            All notifications
-          </button>
+          <div className="cursor-pointer text-sm font-medium text-blue-600 hover:underline">All notifications</div>
           <SettingsIcon size={18} className="cursor-pointer" />
         </div>
       </PopoverContent>
