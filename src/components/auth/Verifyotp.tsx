@@ -63,7 +63,7 @@ const VerifyOtp: React.FC<VerifyOtpProps> = ({
       <div className="text-center mt-2">
         <button
           type="button"
-          className={`text-blue-500 underline ${!canResend ? 'cursor-not-allowed opacity-50' : ''}`}
+          className={`text-blue-500  underline  ${!canResend ? 'cursor-not-allowed opacity-50' : 'hover:text-blue-600 cursor-pointer'}`}
           onClick={handleResend}
           disabled={!canResend || loading}
         >
