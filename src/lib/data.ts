@@ -1,12 +1,9 @@
 import {
-  Box,
   ClipboardList,
   CreditCard,
   Headset,
-  Image,
   LayoutDashboard,
   Settings,
-  Star,
   UserRound,
 } from 'lucide-react';
 

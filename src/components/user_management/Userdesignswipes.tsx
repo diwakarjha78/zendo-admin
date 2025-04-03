@@ -140,7 +140,7 @@ const Userdesignswipes: React.FC = () => {
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">
-                          {user.preferences.slice(0, 4).map((pref, i) => (
+                          {user.preferences.slice(0, 4).map((pref) => (
                             <div key={pref.image_id} className="relative">
                               <Blobimage
                                 src={pref.image_url}

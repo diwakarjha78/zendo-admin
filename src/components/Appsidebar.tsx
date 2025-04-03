@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Data from '@/lib/data';
 import { Link } from 'react-router-dom';
-import { ChevronRight, LockOpen, LogOut, Settings } from 'lucide-react';
+import { ChevronRight, LockOpen, LogOut } from 'lucide-react';
 
 import {
   Sidebar,
