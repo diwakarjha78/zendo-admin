@@ -3,7 +3,7 @@ import usePagetitle from '@/hooks/usePagetitle';
 import { Toaster } from 'sonner';
 import Userdesignswipes from './Userdesignswipes';
 import Userbudgetestimation from './Userbudgetestimation';
-import Userphotouploads from './Userphotouploads';
+import Userimageupload from './Userimageupload';
 
 const Useractivity: React.FC = () => {
   usePagetitle('User Profile');
@@ -14,7 +14,7 @@ const Useractivity: React.FC = () => {
       <div className='flex flex-col gap-10'>
         <Userdesignswipes />
         <Userbudgetestimation />
-        <Userphotouploads />
+        <Userimageupload />
       </div>
     </div>
   );
