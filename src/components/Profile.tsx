@@ -177,7 +177,7 @@ const Profile: React.FC = () => {
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <CardTitle>Edit Profile</CardTitle>
               <div className="flex gap-2">
-                <Button type="submit" disabled={submitting} className="transition-all duration-300 ease-in-out">
+                <Button type="submit" disabled={submitting} className="cursor-pointer transition-all duration-300 ease-in-out">
                   {submitting ? (
                     <svg
                       className="animate-spin h-5 w-5 mr-2 text-white"
@@ -207,7 +207,7 @@ const Profile: React.FC = () => {
                   variant="outline"
                   type="button"
                   onClick={() => setEditing(false)}
-                  className="transition-all duration-300 ease-in-out"
+                  className="transition-all duration-300 ease-in-out cursor-pointer"
                 >
                   Cancel
                 </Button>
@@ -225,7 +225,7 @@ const Profile: React.FC = () => {
                   value={formData.username}
                   onChange={handleChange}
                   placeholder="Enter your username"
-                  className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-primary focus:ring-primary transition-colors"
+                  className="mt-1 block w-full rounded border-gray-300 p-2 shadow-sm focus:border-primary focus:ring-primary transition-colors"
                 />
               </div>
               <div>
@@ -238,7 +238,7 @@ const Profile: React.FC = () => {
                   value={formData.mobile}
                   onChange={handleChange}
                   placeholder="Enter your mobile number"
-                  className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-primary focus:ring-primary transition-colors"
+                  className="mt-1 block w-full rounded border-gray-300 p-2 shadow-sm focus:border-primary focus:ring-primary transition-colors"
                 />
               </div>
               <div>
@@ -252,7 +252,7 @@ const Profile: React.FC = () => {
                     name="image"
                     accept="image/*"
                     onChange={handleFileChange}
-                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-md file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-dark transition-colors"
+                    className="cursor-pointer block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-dark transition-colors"
                   />
                 </div>
                 {imagePreview && (
@@ -278,7 +278,7 @@ const Profile: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={() => setEditing(true)}
-              className="transition-all duration-300 ease-in-out"
+              className="transition-all duration-300 ease-in-out cursor-pointer"
             >
               Edit
             </Button>

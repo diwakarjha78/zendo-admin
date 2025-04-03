@@ -27,6 +27,7 @@ interface UserProfile {
 
 const Profilemenu: React.FC = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
@@ -51,7 +52,7 @@ const Profilemenu: React.FC = () => {
     fetchProfile();
   }, [token]);
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <div className="relative">
           <Avatar className="h-9 w-9 shadow border-gray-100 border cursor-pointer select-none">
@@ -66,20 +67,33 @@ const Profilemenu: React.FC = () => {
       </PopoverTrigger>
       <PopoverContent className="w-48 p-0 rounded-xs absolute top-1 -right-2" align="end">
         <div className="bg-white">
-          <Link to={'/profile'} className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer">
+          <Link 
+            to={'/profile'} 
+            onClick={() => setIsOpen(false)}
+            className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer"
+          >
             <User size={16} />
             <span className="text-sm font-medium">Profile</span>
           </Link>
-          <div className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer">
+          <div 
+            onClick={() => setIsOpen(false)}
+            className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer"
+          >
             <CreditCard size={16} />
             <span className="text-sm font-medium">Billing</span>
           </div>
-          <div className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer">
+          <div 
+            onClick={() => setIsOpen(false)}
+            className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer"
+          >
             <SettingsIcon size={16} />
             <span className="text-sm font-medium">Settings</span>
           </div>
           <div
-            onClick={() => setIsLogoutModalOpen(true)}
+            onClick={() => {
+              setIsOpen(false);
+              setIsLogoutModalOpen(true);
+            }}
             className="px-4 py-3 flex items-center gap-2.5 cursor-pointer text-sm font-medium hover:bg-gray-50 border-t w-full"
           >
             <LogOut size={16} />
