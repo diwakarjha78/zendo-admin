@@ -13,7 +13,7 @@ const api = axios.create({
 // Request interceptor - Attach access token to headers
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem('zendo_at');
+    const token = localStorage.getItem('zendo_at') || sessionStorage.getItem('zendo_at');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -98,7 +98,8 @@ api.interceptors.response.use(
       // Otherwise, start token refresh
       isRefreshing = true;
       try {
-        const refreshToken = localStorage.getItem('zendo_rt');
+        // Check which storage holds the refresh token based on "Remember Me"
+        const refreshToken = localStorage.getItem('zendo_rt') || sessionStorage.getItem('zendo_rt');
         if (!refreshToken) {
           console.error('No refresh token available.');
           throw new Error('No refresh token available');
@@ -119,13 +120,19 @@ api.interceptors.response.use(
           const newToken = refreshData.token;
           console.log('New Access Token:', newToken);
 
-          // Store new token and retry original request
-          localStorage.setItem('zendo_at', newToken);
+          // Save new token to the correct storage based on where the refresh token was found
+          if (localStorage.getItem('zendo_rt')) {
+            localStorage.setItem('zendo_at', newToken);
+          } else {
+            sessionStorage.setItem('zendo_at', newToken);
+          }
+
+          // Update original request header with new token
           if (originalRequest.headers) {
             originalRequest.headers.Authorization = `Bearer ${newToken}`;
           }
 
-          // Process any queued requests
+          // Process any queued requests with new token
           processQueue(null, newToken);
 
           // Retry the original request
@@ -138,9 +145,11 @@ api.interceptors.response.use(
         console.error('Token Refresh Error:', refreshError);
         processQueue(refreshError, null);
 
-        // Remove expired tokens and redirect to login
+        // Remove expired tokens from both storages and redirect to login
         localStorage.removeItem('zendo_at');
         localStorage.removeItem('zendo_rt');
+        sessionStorage.removeItem('zendo_at');
+        sessionStorage.removeItem('zendo_rt');
         window.location.href = '/auth/login';
         return Promise.reject(refreshError);
       } finally {

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import usePagetitle from '@/hooks/usePagetitle';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
+  const [rememberMe, setRememberMe] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false);
 
@@ -39,8 +40,14 @@ const Login: React.FC = () => {
           return;
         }
 
-        localStorage.setItem('zendo_at', data.data.token);
-        localStorage.setItem('zendo_rt', data.data.refresh_token);
+        // Store tokens based on "remember me" choice
+        if (rememberMe) {
+          localStorage.setItem('zendo_at', data.data.token);
+          localStorage.setItem('zendo_rt', data.data.refresh_token);
+        } else {
+          sessionStorage.setItem('zendo_at', data.data.token);
+          sessionStorage.setItem('zendo_rt', data.data.refresh_token);
+        }
         navigate('/');
       } else {
         setError(data.message || 'Login failed');
@@ -92,6 +99,20 @@ const Login: React.FC = () => {
               </button>
             </div>
 
+            {/* Remember Me Checkbox */}
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label htmlFor="rememberMe" className="text-sm text-gray-700">
+                Remember me
+              </label>
+            </div>
+
             {error && <div className="text-red-500 text-sm">{error}</div>}
 
             <Button type="submit" className="w-full mt-2 rounded cursor-pointer" disabled={loading}>
@@ -107,9 +128,9 @@ const Login: React.FC = () => {
           </form>
 
           <div className="w-full flex justify-end mt-2">
-            <a href="#" className="text-sm text-blue-500">
+            <Link to="/auth/forgot-password" className="text-sm text-blue-500">
               Forgot password?
-            </a>
+            </Link>
           </div>
         </CardContent>
       </Card>

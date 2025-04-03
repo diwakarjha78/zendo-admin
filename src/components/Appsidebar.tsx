@@ -72,9 +72,9 @@ const AppSidebar: React.FC = () => {
         </SidebarGroup>
 
         <div className="sticky bottom-0 z-10 p-2 border-t border-gray-200 flex justify-around items-center shadow-md">
-          <div className="bg-transparent text-black hover:bg-gray-200 rounded cursor-pointer p-2 transition-colors">
+          {/* <div className="bg-transparent text-black hover:bg-gray-200 rounded cursor-pointer p-2 transition-colors">
             <Settings size={24} />
-          </div>
+          </div> */}
           <div className="bg-transparent text-black hover:bg-gray-200 rounded cursor-pointer p-2 transition-colors">
             <LockOpen size={24} />
           </div>

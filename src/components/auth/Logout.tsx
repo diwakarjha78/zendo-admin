@@ -28,6 +28,8 @@ const Logout: React.FC<LogoutProps> = ({ open, onOpenChange }) => {
     } finally {
       localStorage.removeItem('zendo_at');
       localStorage.removeItem('zendo_rt');
+      sessionStorage.removeItem('zendo_at');
+      sessionStorage.removeItem('zendo_rt');
       navigate('/auth/login');
     }
   };

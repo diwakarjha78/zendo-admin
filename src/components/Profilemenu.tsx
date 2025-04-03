@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { User, CreditCard, LogOut, Settings as SettingsIcon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import Logout from './auth/Logout';
+import { Link } from 'react-router-dom';
 
 const Profilemenu: React.FC = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
@@ -15,10 +16,10 @@ const Profilemenu: React.FC = () => {
       </PopoverTrigger>
       <PopoverContent className="w-48 p-0 rounded-xs absolute top-1 -right-2" align="end">
         <div className="bg-white">
-          <div className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer">
+          <Link to={'/profile'} className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer">
             <User size={16} />
             <span className="text-sm font-medium">Profile</span>
-          </div>
+          </Link>
           <div className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer">
             <CreditCard size={16} />
             <span className="text-sm font-medium">Billing</span>

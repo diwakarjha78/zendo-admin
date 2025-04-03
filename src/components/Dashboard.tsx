@@ -12,7 +12,7 @@ const Dashboard: React.FC = () => {
           <div key={index} className="flex flex-col items-center justify-center rounded text-center shadow-sm bg-white">
             {/* Icon link with hover scale animation */}
             <Link
-              to={'/'}
+              to={item.url}
               className="py-10 w-full flex justify-center items-center transition duration-200 hover:scale-110 bg-transparent rounded-t"
             >
               <item.icon className="!w-12 !h-12" />
