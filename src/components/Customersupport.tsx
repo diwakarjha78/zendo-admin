@@ -6,8 +6,10 @@ import { Label } from '@/components/ui/label';
 import api from '@/lib/api';
 import { Toaster, toast } from 'sonner';
 import Blobimage from './Blobimage';
+import Customerfeedback from './Customerfeedback';
 
 interface ContactDetails {
+  id: number;
   email: string;
   mobile: string;
   email_image_url?: string;
@@ -15,7 +17,6 @@ interface ContactDetails {
 }
 
 const Customersupport: React.FC = () => {
-  // We'll merge the two objects returned by the API into a single object.
   const [contact, setContact] = useState<ContactDetails | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
@@ -38,24 +39,15 @@ const Customersupport: React.FC = () => {
   const fetchContactDetails = async () => {
     setLoading(true);
     try {
-      const res = await api.get<{ data: any }>('/getContactDetails');
-      // Expecting res.data.data to be an array of two objects:
-      // index 0: { email: '...', image_url: '...' }
-      // index 1: { mobile: '...', image_url: '...' }
-      if (Array.isArray(res.data.data) && res.data.data.length >= 2) {
+      const res = await api.get<{ data: ContactDetails }>('/getContactDetails');
+      // Now expecting res.data.data to be a single object
+      if (res.data.data) {
         const data = res.data.data;
-        const merged: ContactDetails = {
-          email: data[0].email,
-          email_image_url: data[0].image_url,
-          mobile: data[1].mobile,
-          mobile_image_url: data[1].image_url,
-        };
-        setContact(merged);
-        // Populate form fields with merged data
-        setEmail(merged.email);
-        setMobile(merged.mobile);
-        if (merged.email_image_url) setPreviewEmailImage(merged.email_image_url);
-        if (merged.mobile_image_url) setPreviewMobileImage(merged.mobile_image_url);
+        setContact(data);
+        setEmail(data.email);
+        setMobile(data.mobile);
+        if (data.email_image_url) setPreviewEmailImage(data.email_image_url);
+        if (data.mobile_image_url) setPreviewMobileImage(data.mobile_image_url);
       }
     } catch (error) {
       toast.error('Error fetching contact details');
@@ -112,8 +104,9 @@ const Customersupport: React.FC = () => {
 
     try {
       let res;
-      // If contact exists, update; otherwise, create new.
+      // If contact exists, update (append id), otherwise create new.
       if (contact) {
+        formData.append('id', contact.id.toString());
         res = await api.put('/updateContactDetails', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
@@ -132,9 +125,14 @@ const Customersupport: React.FC = () => {
 
   const handleDelete = async () => {
     if (!contact) return;
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete the contact details?'
+    );
+    if (!confirmDelete) return;
+
     try {
-      // Since there's no id in the merged object, our backend should be set up to delete the single contact record.
-      await api.delete('/deleteContactDetails');
+      // Sending id in the request body using Axios delete config
+      await api.delete('/deleteContactDetails', { data: { id: contact.id } });
       toast.success('Contact details deleted successfully');
       setContact(null);
       resetForm();
@@ -156,11 +154,13 @@ const Customersupport: React.FC = () => {
   }
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
+    <div className="p-4">
       <Toaster />
-      <Card>
+      <Card className="w-full rounded">
         <CardHeader className="flex flex-col sm:flex-row items-center justify-between">
-          <CardTitle>Customer Support</CardTitle>
+          <CardTitle className="text-xl font-semibold capitalize">
+            Customer Support
+          </CardTitle>
           {contact && !editing && (
             <div className="flex gap-2 mt-2 sm:mt-0">
               <Button onClick={() => setEditing(true)}>Edit</Button>
@@ -174,81 +174,123 @@ const Customersupport: React.FC = () => {
           {editing ? (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {/* Email Field with Icon */}
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" value={email} onChange={handleEmailChange} required />
+                  <div className="flex items-center space-x-4">
+                    {previewEmailImage ? (
+                      <Blobimage
+                        src={previewEmailImage}
+                        alt="Email Icon"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 bg-gray-200 flex items-center justify-center rounded-full">
+                        <span className="text-gray-500 text-xs">Icon</span>
+                      </div>
+                    )}
+                    <Input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={handleEmailChange}
+                      required
+                      className="flex-1"
+                    />
+                  </div>
+                  <Input
+                    id="email_image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleEmailImageChange}
+                  />
                 </div>
+
+                {/* Mobile Field with Icon */}
                 <div className="space-y-2">
                   <Label htmlFor="mobile">Mobile</Label>
-                  <Input id="mobile" type="text" value={mobile} onChange={handleMobileChange} required />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="email_image">Email Image</Label>
-                  <Input id="email_image" type="file" accept="image/*" onChange={handleEmailImageChange} />
-                  {previewEmailImage && (
-                    <img
-                      src={previewEmailImage}
-                      alt="Email Preview"
-                      className="mt-2 w-32 h-32 object-cover rounded border"
+                  <div className="flex items-center space-x-4">
+                    {previewMobileImage ? (
+                      <Blobimage
+                        src={previewMobileImage}
+                        alt="Mobile Icon"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 bg-gray-200 flex items-center justify-center rounded-full">
+                        <span className="text-gray-500 text-xs">Icon</span>
+                      </div>
+                    )}
+                    <Input
+                      id="mobile"
+                      type="text"
+                      value={mobile}
+                      onChange={handleMobileChange}
+                      required
+                      className="flex-1"
                     />
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="mobile_image">Mobile Image</Label>
-                  <Input id="mobile_image" type="file" accept="image/*" onChange={handleMobileImageChange} />
-                  {previewMobileImage && (
-                    <img
-                      src={previewMobileImage}
-                      alt="Mobile Preview"
-                      className="mt-2 w-32 h-32 object-cover rounded border"
-                    />
-                  )}
+                  </div>
+                  <Input
+                    id="mobile_image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleMobileImageChange}
+                  />
                 </div>
               </div>
 
               <div className="flex gap-4">
                 <Button type="submit">Save</Button>
-                <Button type="button" variant="outline" onClick={() => setEditing(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setEditing(false);
+                    // Optionally, reset form if canceling edit
+                    fetchContactDetails();
+                  }}
+                >
                   Cancel
                 </Button>
               </div>
             </form>
           ) : (
-            // Display mode
+            // Display Mode: Icon integrated with text
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label className="font-medium">Email</Label>
-                  <p className="text-gray-700">{contact?.email || 'Not provided'}</p>
-                </div>
-                <div className="space-y-2">
-                  <Label className="font-medium">Mobile</Label>
-                  <p className="text-gray-700">{contact?.mobile || 'Not provided'}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="space-y-2 flex flex-col items-center">
-                  <Label className="font-medium">Email Image</Label>
+                <div className="flex items-center space-x-4">
                   {contact?.email_image_url ? (
-                    <Blobimage src={contact.email_image_url} alt="Email" />
+                    <Blobimage
+                      src={contact.email_image_url}
+                      alt="Email Icon"
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
                   ) : (
-                    <div className="w-32 h-32 bg-gray-200 flex items-center justify-center rounded border">
-                      <span>No Image</span>
+                    <div className="w-10 h-10 bg-gray-200 flex items-center justify-center rounded-full">
+                      <span className="text-gray-500 text-xs">Icon</span>
                     </div>
                   )}
+                  <div>
+                    <Label className="font-medium">Email</Label>
+                    <p className="text-gray-700">{contact?.email || 'Not provided'}</p>
+                  </div>
                 </div>
-                <div className="space-y-2 flex flex-col items-center">
-                  <Label className="font-medium">Mobile Image</Label>
+                <div className="flex items-center space-x-4">
                   {contact?.mobile_image_url ? (
-                    <Blobimage src={contact.mobile_image_url} alt="Mobile" />
+                    <Blobimage
+                      src={contact.mobile_image_url}
+                      alt="Mobile Icon"
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
                   ) : (
-                    <div className="w-32 h-32 bg-gray-200 flex items-center justify-center rounded border">
-                      <span>No Image</span>
+                    <div className="w-10 h-10 bg-gray-200 flex items-center justify-center rounded-full">
+                      <span className="text-gray-500 text-xs">Icon</span>
                     </div>
                   )}
+                  <div>
+                    <Label className="font-medium">Mobile</Label>
+                    <p className="text-gray-700">{contact?.mobile || 'Not provided'}</p>
+                  </div>
                 </div>
               </div>
               {!contact && (
@@ -260,6 +302,7 @@ const Customersupport: React.FC = () => {
           )}
         </CardContent>
       </Card>
+      <Customerfeedback />
     </div>
   );
 };

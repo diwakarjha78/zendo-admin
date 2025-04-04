@@ -9,6 +9,8 @@ import Forgotpassword from './components/auth/Forgotpassword';
 import Useractivity from './components/user_management/Useractivity';
 import Customersupport from './components/Customersupport';
 import Profile from './components/Profile';
+import Contentmanagement from './components/content_management/Contentmanagement';
+import Transactionmanagement from './components/security_and_payments/Transactionmanagement';
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +28,8 @@ const Router = createBrowserRouter(
           <Route path="/user-activity" element={<Useractivity />} />
           <Route path="/customer-support" element={<Customersupport />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/content-management" element={<Contentmanagement />} />
+          <Route path="/transaction-management" element={<Transactionmanagement />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

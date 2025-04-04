@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { User, CreditCard, LogOut, Settings as SettingsIcon } from 'lucide-react';
+// import { User, CreditCard, LogOut, Settings as SettingsIcon } from 'lucide-react';
+import { User, LogOut } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import Logout from './auth/Logout';
 import { Link } from 'react-router-dom';
@@ -39,7 +40,6 @@ const Profilemenu: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log('API response:', res.data);
         if (res.data?.data) {
           setProfile(res.data.data);
         } else {
@@ -75,20 +75,20 @@ const Profilemenu: React.FC = () => {
             <User size={16} />
             <span className="text-sm font-medium">Profile</span>
           </Link>
-          <div 
+          {/* <div 
             onClick={() => setIsOpen(false)}
             className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer"
           >
             <CreditCard size={16} />
             <span className="text-sm font-medium">Billing</span>
-          </div>
-          <div 
+          </div> */}
+          {/* <div 
             onClick={() => setIsOpen(false)}
             className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer"
           >
             <SettingsIcon size={16} />
             <span className="text-sm font-medium">Settings</span>
-          </div>
+          </div> */}
           <div
             onClick={() => {
               setIsOpen(false);

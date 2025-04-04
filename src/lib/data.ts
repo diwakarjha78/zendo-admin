@@ -38,7 +38,7 @@ const Data = {
         // },
       ],
     },
-    { title: 'Content Management', url: '/calendar', icon: ClipboardList },
+    { title: 'Content Management', url: '/content-management', icon: ClipboardList },
     // {
     //   title: 'Photo Management',
     //   url: '/search',
@@ -168,13 +168,13 @@ const Data = {
   ],
   Dashboardlink: [
     { title: 'User Management', url: '/user-profiles', icon: UserRound },
-    { title: 'Content Management', url: '/', icon: ClipboardList },
+    { title: 'Content Management', url: '/content-management', icon: ClipboardList },
     // { title: 'Photo Management', url: '/', icon: Image },
-    { title: 'AI Rendering Oversight', url: '/settings', icon: Settings },
+    { title: 'AI Rendering Oversight', url: '/ai-rendering-image', icon: Settings },
     // { title: 'Product Integration Management', url: '/settings', icon: Box },
     // { title: 'Feedback and Ratings Management', url: '/settings', icon: Star },
-    { title: 'Customer Support Management', url: '/settings', icon: Headset },
-    { title: 'Security and Payments', url: '/settings', icon: CreditCard },
+    { title: 'Customer Support Management', url: '/customer-support', icon: Headset },
+    { title: 'Security and Payments', url: '/transaction-management', icon: CreditCard },
   ],
   
 };
