@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import api from '@/lib/api'; // Our custom axios instance with interceptors
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Trash2, ChevronsLeft, ChevronsRight, Eye, Loader2 } from 'lucide-react';
+import { Trash2, RotateCcw, ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import usePagetitle from '@/hooks/usePagetitle';
 import {
@@ -51,11 +51,15 @@ const Userprofile: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [restoreLoading, setRestoreLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
 
   // State for deletion modal
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  // State for restore modal
+  const [restoreModalOpen, setRestoreModalOpen] = useState(false);
+  // Selected user for confirmation (delete or restore)
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   //
@@ -126,7 +130,7 @@ const Userprofile: React.FC = () => {
       const response = await api.get(`/deleteUser?userId=${selectedUser.id}`);
       const result = response.data as { status_code: number; message: string; data?: User };
       if (result.status_code === 200) {
-        // Instead of removing the user from the list, update its is_active flag to false
+        // Update the user to inactive
         setUsers((prev) =>
           prev.map((user) =>
             user.id === selectedUser.id ? { ...user, is_active: false } : user
@@ -147,7 +151,38 @@ const Userprofile: React.FC = () => {
   };
 
   //
-  // 8) Render
+  // 8) Restore User Handler
+  //
+  const handleRestoreUser = async () => {
+    if (!selectedUser) return;
+    setRestoreLoading(true);
+    try {
+      // Call the restore API endpoint with the userId as a query parameter
+      const response = await api.get(`/restoreDeletedUser?userId=${selectedUser.id}`);
+      const result = response.data as { status_code: number; message: string; data?: User };
+      if (result.status_code === 200) {
+        // Update the user to active
+        setUsers((prev) =>
+          prev.map((user) =>
+            user.id === selectedUser.id ? { ...user, is_active: true } : user
+          )
+        );
+        toast.success(result.message || `${selectedUser.username} has been restored.`);
+      } else {
+        toast.error(result.message || 'Failed to restore user');
+      }
+    } catch (err) {
+      console.error('Error restoring user:', err);
+      toast.error('Error restoring user');
+    } finally {
+      setRestoreLoading(false);
+      setRestoreModalOpen(false);
+      setSelectedUser(null);
+    }
+  };
+
+  //
+  // 9) Render
   //
   return (
     <div className="p-4">
@@ -217,18 +252,29 @@ const Userprofile: React.FC = () => {
                       <TableCell>{new Date(user.createdAt).toLocaleString()}</TableCell>
                       <TableCell>{new Date(user.updatedAt).toLocaleString()}</TableCell>
                       <TableCell className="flex justify-center items-center gap-3">
-                        <button className="text-gray-600 hover:bg-gray-200 rounded p-1 hover:text-blue-500 cursor-pointer">
-                          <Eye size={18} />
-                        </button>
-                        <button
-                          onClick={() => {
-                            setSelectedUser(user);
-                            setDeleteModalOpen(true);
-                          }}
-                          className="text-gray-600 hover:bg-gray-200 rounded p-1 hover:text-red-500 cursor-pointer"
-                        >
-                          <Trash2 size={18} />
-                        </button>
+                        {user.is_active ? (
+                          // Delete Button
+                          <button
+                            onClick={() => {
+                              setSelectedUser(user);
+                              setDeleteModalOpen(true);
+                            }}
+                            className="text-gray-600 hover:bg-gray-200 rounded p-1 hover:text-red-500 cursor-pointer"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        ) : (
+                          // Restore Button
+                          <button
+                            onClick={() => {
+                              setSelectedUser(user);
+                              setRestoreModalOpen(true);
+                            }}
+                            className="text-gray-600 hover:bg-gray-200 rounded p-1 hover:text-green-500 cursor-pointer"
+                          >
+                            <RotateCcw size={18} />
+                          </button>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))
@@ -272,8 +318,7 @@ const Userprofile: React.FC = () => {
           <DialogHeader>
             <DialogTitle>Confirm Delete</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete user{' '}
-              <strong>{selectedUser?.username}</strong>?
+              Are you sure you want to delete user <strong>{selectedUser?.username}</strong>?
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex justify-end gap-2">
@@ -282,6 +327,26 @@ const Userprofile: React.FC = () => {
             </Button>
             <Button onClick={handleDeleteUser} disabled={deleteLoading}>
               {deleteLoading ? 'Deleting...' : 'Delete'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Restore Confirmation Modal */}
+      <Dialog open={restoreModalOpen} onOpenChange={setRestoreModalOpen}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Confirm Restore</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to restore user <strong>{selectedUser?.username}</strong>?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setRestoreModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleRestoreUser} disabled={restoreLoading}>
+              {restoreLoading ? 'Restoring...' : 'Restore'}
             </Button>
           </DialogFooter>
         </DialogContent>
