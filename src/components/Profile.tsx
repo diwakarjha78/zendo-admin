@@ -177,7 +177,11 @@ const Profile: React.FC = () => {
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <CardTitle>Edit Profile</CardTitle>
               <div className="flex gap-2">
-                <Button type="submit" disabled={submitting} className="cursor-pointer transition-all duration-300 ease-in-out">
+                <Button
+                  type="submit"
+                  disabled={submitting}
+                  className="cursor-pointer transition-all duration-300 ease-in-out"
+                >
                   {submitting ? (
                     <svg
                       className="animate-spin h-5 w-5 mr-2 text-white"

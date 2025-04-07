@@ -67,8 +67,8 @@ const Profilemenu: React.FC = () => {
       </PopoverTrigger>
       <PopoverContent className="w-48 p-0 rounded-xs absolute top-1 -right-2" align="end">
         <div className="bg-white">
-          <Link 
-            to={'/profile'} 
+          <Link
+            to={'/profile'}
             onClick={() => setIsOpen(false)}
             className="px-4 py-3 hover:bg-gray-50 flex items-center gap-2.5 cursor-pointer"
           >

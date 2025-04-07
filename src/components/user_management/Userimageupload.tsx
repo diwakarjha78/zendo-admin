@@ -43,7 +43,7 @@ const Userimageupload: React.FC = () => {
         }
       } catch (err) {
         const axiosError = err as AxiosError;
-        setError(axiosError.response?.data as string || axiosError.message || 'Error fetching users');
+        setError((axiosError.response?.data as string) || axiosError.message || 'Error fetching users');
       } finally {
         setLoading(false);
       }
@@ -54,9 +54,7 @@ const Userimageupload: React.FC = () => {
 
   const filteredData = useMemo(() => {
     const lowerSearch = search.toLowerCase();
-    return users.filter((user) =>
-      `${user.username} ${user.email}`.toLowerCase().includes(lowerSearch)
-    );
+    return users.filter((user) => `${user.username} ${user.email}`.toLowerCase().includes(lowerSearch));
   }, [search, users]);
 
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);

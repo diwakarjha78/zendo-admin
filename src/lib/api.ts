@@ -1,9 +1,4 @@
-import axios, {
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError,
-  InternalAxiosRequestConfig,
-} from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 // Create Axios instance
 const api = axios.create({

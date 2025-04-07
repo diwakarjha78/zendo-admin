@@ -50,11 +50,7 @@ const Budgetpromptmanagement: React.FC = () => {
       }
     } catch (err) {
       const axiosError = err as AxiosError;
-      setError(
-        (axiosError.response?.data as string) ||
-          axiosError.message ||
-          'Error fetching data'
-      );
+      setError((axiosError.response?.data as string) || axiosError.message || 'Error fetching data');
     } finally {
       setLoading(false);
     }
@@ -111,9 +107,7 @@ const Budgetpromptmanagement: React.FC = () => {
     }
 
     // Clean pricelist: trim each item and filter out empties
-    const cleanedPricelist = pricelistItems
-      .map((item) => item.trim())
-      .filter((item) => item !== '');
+    const cleanedPricelist = pricelistItems.map((item) => item.trim()).filter((item) => item !== '');
     if (cleanedPricelist.length === 0) {
       setError('Pricelist must contain at least one item');
       setSubmitLoading(false);
@@ -140,11 +134,7 @@ const Budgetpromptmanagement: React.FC = () => {
       }
     } catch (err) {
       const axiosError = err as AxiosError;
-      setError(
-        (axiosError.response?.data as string) ||
-          axiosError.message ||
-          'Error submitting form'
-      );
+      setError((axiosError.response?.data as string) || axiosError.message || 'Error submitting form');
     } finally {
       setSubmitLoading(false);
     }
@@ -167,11 +157,7 @@ const Budgetpromptmanagement: React.FC = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Budget Prompt Management</h1>
         {!isEditing && (
-          <Button
-            onClick={() => setIsEditing(true)}
-            variant="outline"
-            className="cursor-pointer"
-          >
+          <Button onClick={() => setIsEditing(true)} variant="outline" className="cursor-pointer">
             Edit
           </Button>
         )}
@@ -222,9 +208,7 @@ const Budgetpromptmanagement: React.FC = () => {
           {isEditing && (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Title
-                </label>
+                <label className="block text-sm font-medium text-gray-700">Title</label>
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -233,43 +217,28 @@ const Budgetpromptmanagement: React.FC = () => {
                 />
               </div>
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Pricelist
-                </label>
+                <label className="block text-sm font-medium text-gray-700">Pricelist</label>
                 <div className="space-y-2">
                   {pricelistItems.map((item, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <Input
                         value={item}
-                        onChange={(e) =>
-                          handlePriceItemChange(index, e.target.value)
-                        }
+                        onChange={(e) => handlePriceItemChange(index, e.target.value)}
                         placeholder={`Item ${index + 1}`}
                         className="w-full"
                       />
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => removePriceItem(index)}
-                      >
+                      <Button variant="outline" size="sm" onClick={() => removePriceItem(index)}>
                         Remove
                       </Button>
                     </div>
                   ))}
                 </div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={addPriceItem}
-                >
+                <Button type="button" variant="outline" size="sm" onClick={addPriceItem}>
                   Add Item
                 </Button>
               </div>
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Image
-                </label>
+                <label className="block text-sm font-medium text-gray-700">Image</label>
                 <Input
                   type="file"
                   onChange={(e) => {
@@ -283,22 +252,14 @@ const Budgetpromptmanagement: React.FC = () => {
               {previewImage && (
                 <div>
                   <p className="text-sm text-gray-600">Image Preview:</p>
-                  <Blobimage
-                    src={previewImage}
-                    alt="Preview"
-                    className="w-20 h-20 object-cover rounded border"
-                  />
+                  <Blobimage src={previewImage} alt="Preview" className="w-20 h-20 object-cover rounded border" />
                 </div>
               )}
               {error && <p className="text-red-500">{error}</p>}
               {successMsg && <p className="text-green-500">{successMsg}</p>}
               <div className="flex items-center space-x-4">
                 <Button type="submit" disabled={submitLoading}>
-                  {submitLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin text-white" />
-                  ) : (
-                    'Save Changes'
-                  )}
+                  {submitLoading ? <Loader2 className="w-5 h-5 animate-spin text-white" /> : 'Save Changes'}
                 </Button>
                 <Button type="button" variant="outline" onClick={handleCancel}>
                   Cancel
@@ -311,9 +272,7 @@ const Budgetpromptmanagement: React.FC = () => {
           {!loading && !estimation && !isEditing && (
             <div className="border rounded p-6 text-center space-y-4">
               <p className="text-gray-600">No budget estimation record found.</p>
-              <Button onClick={() => setIsEditing(true)}>
-                Create Budget Estimation
-              </Button>
+              <Button onClick={() => setIsEditing(true)}>Create Budget Estimation</Button>
             </div>
           )}
         </>

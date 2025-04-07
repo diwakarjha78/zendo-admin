@@ -81,85 +81,85 @@ const Transactionmanagement: React.FC = () => {
   const handleNext = () => setPage((prev) => Math.min(prev + 1, totalPages));
 
   return (
-    <div className='p-4'>
+    <div className="p-4">
       <div className="p-6 bg-white rounded shadow-md space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-xl font-semibold capitalize">Transaction Management</h1>
-        <Input
-          placeholder="Search by user, order, transaction ID..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="max-w-80"
-        />
-      </div>
-
-      {loading && (
-        <div className="flex justify-center py-6">
-          <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-xl font-semibold capitalize">Transaction Management</h1>
+          <Input
+            placeholder="Search by user, order, transaction ID..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="max-w-80"
+          />
         </div>
-      )}
 
-      {error && <div className="text-red-500 text-center">{error}</div>}
+        {loading && (
+          <div className="flex justify-center py-6">
+            <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+          </div>
+        )}
 
-      {!loading && !error && (
-        <>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[50px]">S.No</TableHead>
-                  <TableHead>User</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Transaction ID</TableHead>
-                  <TableHead>Order ID</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Date</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {paginatedTransactions.length === 0 ? (
+        {error && <div className="text-red-500 text-center">{error}</div>}
+
+        {!loading && !error && (
+          <>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-6">
-                      No transactions found.
-                    </TableCell>
+                    <TableHead className="w-[50px]">S.No</TableHead>
+                    <TableHead>User</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Transaction ID</TableHead>
+                    <TableHead>Order ID</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Date</TableHead>
                   </TableRow>
-                ) : (
-                  paginatedTransactions.map((txn, idx) => (
-                    <TableRow key={txn.id}>
-                      <TableCell>{startIndex + idx + 1}</TableCell>
-                      <TableCell>{txn.User?.username}</TableCell>
-                      <TableCell>{txn.User?.email}</TableCell>
-                      <TableCell>{txn.transaction_id}</TableCell>
-                      <TableCell>{txn.order_id}</TableCell>
-                      <TableCell>${txn.price}</TableCell>
-                      <TableCell>{new Date(txn.createdAt).toLocaleString()}</TableCell>
+                </TableHeader>
+                <TableBody>
+                  {paginatedTransactions.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={7} className="text-center py-6">
+                        No transactions found.
+                      </TableCell>
                     </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
+                  ) : (
+                    paginatedTransactions.map((txn, idx) => (
+                      <TableRow key={txn.id}>
+                        <TableCell>{startIndex + idx + 1}</TableCell>
+                        <TableCell>{txn.User?.username}</TableCell>
+                        <TableCell>{txn.User?.email}</TableCell>
+                        <TableCell>{txn.transaction_id}</TableCell>
+                        <TableCell>{txn.order_id}</TableCell>
+                        <TableCell>${txn.price}</TableCell>
+                        <TableCell>{new Date(txn.createdAt).toLocaleString()}</TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
 
-          <div className="flex items-center justify-end pt-2 gap-2">
-            <Button variant="outline" size="sm" onClick={handlePrev} disabled={page === 1} className="rounded">
-              <ChevronsLeft className="h-4 w-4" />
-            </Button>
-            <span className="mx-2 text-sm text-gray-700">
-              Page {page} of {totalPages || 1}
-            </span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleNext}
-              disabled={page === totalPages || totalPages === 0}
-              className="rounded"
-            >
-              <ChevronsRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </>
-      )}
-    </div>
+            <div className="flex items-center justify-end pt-2 gap-2">
+              <Button variant="outline" size="sm" onClick={handlePrev} disabled={page === 1} className="rounded">
+                <ChevronsLeft className="h-4 w-4" />
+              </Button>
+              <span className="mx-2 text-sm text-gray-700">
+                Page {page} of {totalPages || 1}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleNext}
+                disabled={page === totalPages || totalPages === 0}
+                className="rounded"
+              >
+                <ChevronsRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

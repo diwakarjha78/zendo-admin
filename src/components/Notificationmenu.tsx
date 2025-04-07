@@ -42,12 +42,8 @@ const Notificationmenu: React.FC = () => {
   // Mark all notifications as read
   const markAllRead = async () => {
     try {
-      const unreadNotifications = notifications.filter(n => !n.is_read);
-      await Promise.all(
-        unreadNotifications.map((notif) =>
-          api.post('/markAdminNotificationAsRead', { id: notif.id })
-        )
-      );
+      const unreadNotifications = notifications.filter((n) => !n.is_read);
+      await Promise.all(unreadNotifications.map((notif) => api.post('/markAdminNotificationAsRead', { id: notif.id })));
       fetchNotifications();
     } catch (err) {
       console.error('Error marking all notifications as read:', err);
@@ -68,9 +64,7 @@ const Notificationmenu: React.FC = () => {
   // Delete all notifications by looping through each id
   const deleteAllNotifications = async () => {
     try {
-      await Promise.all(
-        notifications.map((n) => api.delete(`/deleteAdminNotification/${n.id}`))
-      );
+      await Promise.all(notifications.map((n) => api.delete(`/deleteAdminNotification/${n.id}`)));
       fetchNotifications();
     } catch (err) {
       console.error('Error deleting all notifications:', err);
@@ -116,17 +110,10 @@ const Notificationmenu: React.FC = () => {
                 className={`px-4 py-2 flex justify-between items-start group transition-all duration-300 
                   ${!notif.is_read ? 'bg-gray-50 border-y' : 'bg-white'} hover:bg-gray-50`}
               >
-                <div
-                  onClick={() => markAsRead(notif.id)}
-                  className="flex-1 cursor-pointer"
-                >
-                  <p className={`text-sm ${!notif.is_read ? 'font-bold' : 'font-medium'}`}>
-                    {notif.title}
-                  </p>
+                <div onClick={() => markAsRead(notif.id)} className="flex-1 cursor-pointer">
+                  <p className={`text-sm ${!notif.is_read ? 'font-bold' : 'font-medium'}`}>{notif.title}</p>
                   <p className="text-xs text-gray-500">{notif.message}</p>
-                  <p className="text-[10px] text-muted-foreground">
-                    {new Date(notif.createdAt).toLocaleString()}
-                  </p>
+                  <p className="text-[10px] text-muted-foreground">{new Date(notif.createdAt).toLocaleString()}</p>
                 </div>
                 <Trash2
                   size={14}

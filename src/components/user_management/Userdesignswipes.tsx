@@ -155,8 +155,7 @@ const Userdesignswipes: React.FC = () => {
                                 <span className="absolute top-0 left-0 bg-orange-200 text-black shadow-2xl text-xs px-1 py-0.5 rounded-br">
                                   Disliked
                                 </span>
-                              )
-                            }
+                              )}
                             </div>
                           ))}
                         </div>

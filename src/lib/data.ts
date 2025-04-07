@@ -1,11 +1,4 @@
-import {
-  ClipboardList,
-  CreditCard,
-  Headset,
-  LayoutDashboard,
-  Settings,
-  UserRound,
-} from 'lucide-react';
+import { ClipboardList, CreditCard, Headset, LayoutDashboard, Settings, UserRound } from 'lucide-react';
 
 const Data = {
   Appsidebar: [
@@ -65,7 +58,7 @@ const Data = {
       subOptions: [
         {
           title: 'AI Rendering Image',
-          url: '/ai-algorithm',
+          url: '/ai-rendering-image',
           icon: UserRound,
         },
         // {
@@ -176,7 +169,6 @@ const Data = {
     { title: 'Customer Support Management', url: '/customer-support', icon: Headset },
     { title: 'Security and Payments', url: '/transaction-management', icon: CreditCard },
   ],
-  
 };
 
 export default Data;

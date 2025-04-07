@@ -51,7 +51,7 @@ const Forgotpassword: React.FC = () => {
           </CardHeader>
 
           <CardContent>
-          {currentView === 'email' && (
+            {currentView === 'email' && (
               <EmailForm
                 email={email}
                 setEmail={setEmail}
@@ -90,9 +90,7 @@ const Forgotpassword: React.FC = () => {
                 setLoading={setLoading}
               />
             )}
-            {currentView === 'success' && (
-              <SuccessMessage message={message} />
-            )}
+            {currentView === 'success' && <SuccessMessage message={message} />}
           </CardContent>
         </Card>
       </div>

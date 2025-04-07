@@ -11,7 +11,7 @@ const Useractivity: React.FC = () => {
     <div className="p-4">
       <Toaster />
       <div className="text-3xl font-semibold capitalize mb-6">User Activity</div>
-      <div className='flex flex-col gap-10'>
+      <div className="flex flex-col gap-10">
         <Userdesignswipes />
         <Userbudgetestimation />
         <Userimageupload />

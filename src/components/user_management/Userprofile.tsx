@@ -131,11 +131,7 @@ const Userprofile: React.FC = () => {
       const result = response.data as { status_code: number; message: string; data?: User };
       if (result.status_code === 200) {
         // Update the user to inactive
-        setUsers((prev) =>
-          prev.map((user) =>
-            user.id === selectedUser.id ? { ...user, is_active: false } : user
-          )
-        );
+        setUsers((prev) => prev.map((user) => (user.id === selectedUser.id ? { ...user, is_active: false } : user)));
         toast.success(`${selectedUser.username} has been successfully deactivated.`);
       } else {
         toast.error(result.message || 'Failed to delete user');
@@ -162,11 +158,7 @@ const Userprofile: React.FC = () => {
       const result = response.data as { status_code: number; message: string; data?: User };
       if (result.status_code === 200) {
         // Update the user to active
-        setUsers((prev) =>
-          prev.map((user) =>
-            user.id === selectedUser.id ? { ...user, is_active: true } : user
-          )
-        );
+        setUsers((prev) => prev.map((user) => (user.id === selectedUser.id ? { ...user, is_active: true } : user)));
         toast.success(result.message || `${selectedUser.username} has been restored.`);
       } else {
         toast.error(result.message || 'Failed to restore user');

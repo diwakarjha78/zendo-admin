@@ -125,9 +125,7 @@ const Customersupport: React.FC = () => {
 
   const handleDelete = async () => {
     if (!contact) return;
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete the contact details?'
-    );
+    const confirmDelete = window.confirm('Are you sure you want to delete the contact details?');
     if (!confirmDelete) return;
 
     try {
@@ -158,9 +156,7 @@ const Customersupport: React.FC = () => {
       <Toaster />
       <Card className="w-full rounded">
         <CardHeader className="flex flex-col sm:flex-row items-center justify-between">
-          <CardTitle className="text-xl font-semibold capitalize">
-            Customer Support
-          </CardTitle>
+          <CardTitle className="text-xl font-semibold capitalize">Customer Support</CardTitle>
           {contact && !editing && (
             <div className="flex gap-2 mt-2 sm:mt-0">
               <Button onClick={() => setEditing(true)}>Edit</Button>
@@ -198,12 +194,7 @@ const Customersupport: React.FC = () => {
                       className="flex-1"
                     />
                   </div>
-                  <Input
-                    id="email_image"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleEmailImageChange}
-                  />
+                  <Input id="email_image" type="file" accept="image/*" onChange={handleEmailImageChange} />
                 </div>
 
                 {/* Mobile Field with Icon */}
@@ -230,12 +221,7 @@ const Customersupport: React.FC = () => {
                       className="flex-1"
                     />
                   </div>
-                  <Input
-                    id="mobile_image"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleMobileImageChange}
-                  />
+                  <Input id="mobile_image" type="file" accept="image/*" onChange={handleMobileImageChange} />
                 </div>
               </div>
 
