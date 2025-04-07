@@ -62,6 +62,10 @@ const Userprofile: React.FC = () => {
   // Selected user for confirmation (delete or restore)
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
+
   //
   // 4) Fetch Users from the API
   //

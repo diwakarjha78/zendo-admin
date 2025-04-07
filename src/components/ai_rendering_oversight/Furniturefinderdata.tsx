@@ -32,7 +32,7 @@ interface UserRenderData {
 
 const ITEMS_PER_PAGE = 10;
 
-const FurnitureFinder: React.FC = () => {
+const Furniturefinderdata: React.FC = () => {
   const [users, setUsers] = useState<UserRenderData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -269,4 +269,4 @@ const FurnitureFinder: React.FC = () => {
   );
 };
 
-export default FurnitureFinder;
+export default Furniturefinderdata;

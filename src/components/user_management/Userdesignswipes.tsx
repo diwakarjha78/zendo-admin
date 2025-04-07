@@ -41,6 +41,10 @@ const Userdesignswipes: React.FC = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    setPage(1);
+  }, [search]);
+
+  useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
       setError(null);
