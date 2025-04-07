@@ -12,6 +12,7 @@ import Profile from './components/Profile';
 import Contentmanagement from './components/content_management/Contentmanagement';
 import Transactionmanagement from './components/security_and_payments/Transactionmanagement';
 import Airenderingimage from './components/ai_rendering_oversight/Airenderingimage';
+import Furniturefinderdata from './components/ai_rendering_oversight/Furniturefinderdata';
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,7 @@ const Router = createBrowserRouter(
           <Route path="/content-management" element={<Contentmanagement />} />
           <Route path="/transaction-management" element={<Transactionmanagement />} />
           <Route path="/ai-rendering-image" element={<Airenderingimage />} />
+          <Route path="/furniture-finder-data" element={<Furniturefinderdata />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

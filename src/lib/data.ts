@@ -68,7 +68,7 @@ const Data = {
         // },
         {
           title: 'Furniture Finder Data',
-          url: '/ai-algorithm',
+          url: '/furniture-finder-data',
           icon: UserRound,
         },
         // {
