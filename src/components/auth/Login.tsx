@@ -25,7 +25,7 @@ const Login: React.FC = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post('https://zondo.brancosoft.ae/api/login', {
+      const res = await axios.post('https://zondo.brancosoft.ae/api/v1/login', {
         email,
         password,
         fcm_token: '',

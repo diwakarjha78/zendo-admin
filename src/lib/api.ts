@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse, AxiosError, InternalAxiosRequ
 
 // Create Axios instance
 const api = axios.create({
-  baseURL: 'https://zondo.brancosoft.ae/api',
+  baseURL: 'https://zondo.brancosoft.ae/api/v1',
 });
 
 // Request interceptor - Attach access token to headers
